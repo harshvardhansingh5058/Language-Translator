@@ -47,7 +47,7 @@ clearBtn.addEventListener("click", () => {
 
 // Character count
 if (inputText && charCount) {
-    
+
     inputText.addEventListener("input", () => {
         charCount.textContent = `${inputText.value.length} / 5000`
     })
@@ -55,6 +55,12 @@ if (inputText && charCount) {
 
 // SWAP Logic - Simple & Clean
 swapBtn.addEventListener("click", () => {
+
+    // Only swap if a specific source language is selected
+    if (sourceLang.value === "auto") {
+        alert("Please select a source language first")
+        return
+    }
 
     // Swap languages
     const tempLang = sourceLang.value
