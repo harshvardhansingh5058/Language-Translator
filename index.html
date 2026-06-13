@@ -4,31 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text Translator - Translate Instantly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
+    <div class="bg-decoration" aria-hidden="true"></div>
+
+    <div class="page-wrapper">
         <header class="header">
             <div class="header-content">
-                <h1 class="title">
-                    <span class="icon">🌐</span> Text Translator
-                </h1>
-                <p class="subtitle">Translate text instantly into 100+ languages</p>
+                <div class="icon-badge">
+                    <span class="header-icon">🌐</span>
+                </div>
+                <h1 class="header-title">Text Translator</h1>
+                <p class="header-subtitle">Translate text instantly into 100+ languages</p>
             </div>
         </header>
 
-        <!-- Main Content -->
-        <main class="translator-container">
-            <div class="translator-wrapper">
-                <!-- Input Section -->
-                <div class="section input-section">
-                    <div class="section-header">
-                        <label for="source-lang">Source Language</label>
-                        <span class="char-count">0 / 5000</span>
-                    </div>
-                    
-                    <div class="language-selector">
+        <main class="main-container">
+            <div class="translator-section">
+                <div class="translator-grid">
+                    <!-- Left Card - Source -->
+                    <div class="translator-card source-card">
+                        <div class="card-header">
+                            <label for="source-lang" class="card-label">
+                                <span class="label-dot dot-source"></span>
+                                Source Language
+                            </label>
+                            <span class="char-count">0 / 5000</span>
+                        </div>
+
                         <select id="source-lang" class="language-select">
                             <option value="auto">Auto Detect</option>
                             <option value="en">English</option>
@@ -40,7 +47,7 @@
                             <option value="pt">Portuguese</option>
                             <option value="ja">Japanese</option>
                             <option value="ko">Korean</option>
-                            <option value="zh">Chinese (Simplified)</option>
+                            <option value="zh">Chinese</option>
                             <option value="ar">Arabic</option>
                             <option value="ru">Russian</option>
                             <option value="nl">Dutch</option>
@@ -52,27 +59,39 @@
                             <option value="uk">Ukrainian</option>
                             <option value="el">Greek</option>
                         </select>
+
+                        <textarea
+                            id="input-text"
+                            class="translator-textarea"
+                            placeholder="Enter text to translate..."
+                            maxlength="5000"
+                        ></textarea>
+
+                        <div class="button-group">
+                            <button id="clear-btn" class="btn btn-utility">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                                <span>Clear</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <textarea
-                        id="input-text"
-                        class="textarea input-textarea"
-                        placeholder="Enter text to translate... (Max 5000 characters)"
-                        maxlength="5000"
-                    ></textarea>
+                    <!-- Swap Button -->
+                    <button id="swap-btn" class="swap-button" title="Swap languages">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <polyline points="19 12 12 19 5 12"></polyline>
+                        </svg>
+                    </button>
 
-                    <div class="button-group">
-                        <button id="clear-input" class="btn btn-secondary">Clear</button>
-                    </div>
-                </div>
+                    <!-- Right Card - Target -->
+                    <div class="translator-card target-card">
+                        <div class="card-header">
+                            <label for="target-lang" class="card-label">
+                                <span class="label-dot dot-target"></span>
+                                Target Language
+                            </label>
+                        </div>
 
-                <!-- Output Section -->
-                <div class="section output-section">
-                    <div class="section-header">
-                        <label for="target-lang">Target Language</label>
-                    </div>
-                    
-                    <div class="language-selector">
                         <select id="target-lang" class="language-select">
                             <option value="en">English</option>
                             <option value="hi">Hindi</option>
@@ -83,7 +102,7 @@
                             <option value="pt">Portuguese</option>
                             <option value="ja">Japanese</option>
                             <option value="ko">Korean</option>
-                            <option value="zh">Chinese (Simplified)</option>
+                            <option value="zh">Chinese</option>
                             <option value="ar">Arabic</option>
                             <option value="ru">Russian</option>
                             <option value="nl">Dutch</option>
@@ -95,48 +114,41 @@
                             <option value="uk">Ukrainian</option>
                             <option value="el">Greek</option>
                         </select>
-                    </div>
 
-                    <textarea
-                        id="output-text"
-                        class="textarea output-textarea"
-                        placeholder="Translation will appear here..."
-                        readonly
-                    ></textarea>
+                        <textarea
+                            id="output-text"
+                            class="translator-textarea"
+                            placeholder="Translation will appear here..."
+                            readonly
+                        ></textarea>
 
-                    <div class="button-group">
-                        <button id="copy-btn" class="btn btn-secondary" disabled>
-                            <span class="copy-icon">📋</span> Copy
-                        </button>
+                        <div class="button-group">
+                            <button id="copy-btn" class="btn btn-utility" disabled>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                <span>Copy</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Swap Button -->
-                <div class="swap-container">
-                    <button id="swap-btn" class="swap-btn" title="Swap languages">
-                        <span class="swap-icon">⇅</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Translate Button -->
-            <div class="translate-btn-container">
+                <!-- Translate Button -->
                 <button id="translate-btn" class="btn btn-primary">
-                    <span class="btn-text">Translate</span>
-                    <span class="btn-loader hidden"></span>
+                    <span class="btn-text">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
+                        Translate
+                    </span>
+                    <span class="btn-loader hidden">⟳</span>
                 </button>
             </div>
-
-            <!-- Status & Error Messages -->
-            <div id="status-message" class="status-message hidden"></div>
         </main>
 
-        <!-- Footer -->
         <footer class="footer">
-            <p>Powered by <a href="https://libretranslate.de/" target="_blank" rel="noopener">LibreTranslate API</a></p>
-            <p class="footer-note">Free, open-source translation. No API key required.</p>
+            <p>Powered by <a href="https://mymemory.translated.net/" target="_blank" rel="noopener">MyMemory Translation API</a></p>
+            <p class="footer-note">Free, open-source translation for everyone</p>
         </footer>
     </div>
+
+    <div id="toast" class="toast hidden"></div>
 
     <script src="script.js"></script>
 </body>

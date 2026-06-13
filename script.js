@@ -1,11 +1,12 @@
 // Get Dom...
 const sourceLang = document.getElementById("source-lang")
 const inputText = document.getElementById("input-text")
-const clearBtn = document.getElementById("clear-input")
+const clearBtn = document.getElementById("clear-btn")
 const swapBtn = document.getElementById("swap-btn")
 const targetLang = document.getElementById("target-lang")
 const showOutput = document.getElementById("output-text")
 const translateBtn = document.getElementById("translate-btn")
+const copyBtn = document.getElementById("copy-btn")
 const charCount = document.querySelector(".char-count")
 
 
@@ -17,7 +18,7 @@ translateBtn.addEventListener("click", async () => {
         return
     }
 
-    const text = inputText.value
+    const text = encodeURIComponent(inputText.value)
     const source = sourceLang.value
     const target = targetLang.value
 
@@ -28,6 +29,7 @@ translateBtn.addEventListener("click", async () => {
 
         const data = await response.json()
         showOutput.value = data.responseData.translatedText
+        copyBtn.disabled = false
     } catch (error) {
         console.error("Translation error:", error)
         alert("Translation failed. Please try again.")
@@ -67,5 +69,16 @@ swapBtn.addEventListener("click", () => {
     //  Update char count
     if (charCount) {
         charCount.textContent = `${inputText.value.length} / 5000`
+    }
+})
+
+// Copy button
+copyBtn.addEventListener("click", async () => {
+    if (!showOutput.value.trim()) return
+    try {
+        await navigator.clipboard.writeText(showOutput.value)
+    } catch {
+        showOutput.select()
+        document.execCommand("copy")
     }
 })
