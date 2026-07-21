@@ -1,154 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text Translator - Translate Instantly</title>
+    <title>Translator - Translate Instantly</title>
+    <meta name="description" content="Type text, pick a target language, and get an instant translation.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="bg-decoration" aria-hidden="true"></div>
 
     <div class="page-wrapper">
-        <header class="header">
-            <div class="header-content">
-                <div class="icon-badge">
-                    <span class="header-icon">🌐</span>
-                </div>
-                <h1 class="header-title">Text Translator</h1>
-                <p class="header-subtitle">Translate text instantly into 100+ languages</p>
-            </div>
-        </header>
+        <div class="card">
 
-        <main class="main-container">
-            <div class="translator-section">
-                <div class="translator-grid">
-                    <!-- Left Card - Source -->
-                    <div class="translator-card source-card">
-                        <div class="card-header">
-                            <label for="source-lang" class="card-label">
-                                <span class="label-dot dot-source"></span>
-                                Source Language
-                            </label>
-                            <span class="char-count">0 / 5000</span>
-                        </div>
+            <!-- Title -->
+            <h1 class="card-title">Translator</h1>
+            <p class="card-subtitle">Type text, pick a target language, get the translation.</p>
 
-                        <select id="source-lang" class="language-select">
-                            <option value="en">English</option>
-                            <option value="hi">Hindi</option>
-                            <option value="es">Spanish</option>
-                            <option value="fr">French</option>
-                            <option value="de">German</option>
-                            <option value="it">Italian</option>
-                            <option value="pt">Portuguese</option>
-                            <option value="ja">Japanese</option>
-                            <option value="ko">Korean</option>
-                            <option value="zh">Chinese</option>
-                            <option value="ar">Arabic</option>
-                            <option value="ru">Russian</option>
-                            <option value="nl">Dutch</option>
-                            <option value="tr">Turkish</option>
-                            <option value="pl">Polish</option>
-                            <option value="vi">Vietnamese</option>
-                            <option value="th">Thai</option>
-                            <option value="id">Indonesian</option>
-                            <option value="uk">Ukrainian</option>
-                            <option value="el">Greek</option>
-                        </select>
-
-                        <textarea
-                            id="input-text"
-                            class="translator-textarea"
-                            placeholder="Enter text to translate..."
-                            maxlength="5000"
-                        ></textarea>
-
-                        <div class="button-group">
-                            <button id="clear-btn" class="btn btn-utility">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-                                <span>Clear</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Swap Button -->
-                    <button id="swap-btn" class="swap-button" title="Swap languages">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <polyline points="19 12 12 19 5 12"></polyline>
-                        </svg>
-                    </button>
-
-                    <!-- Right Card - Target -->
-                    <div class="translator-card target-card">
-                        <div class="card-header">
-                            <label for="target-lang" class="card-label">
-                                <span class="label-dot dot-target"></span>
-                                Target Language
-                            </label>
-                        </div>
-
-                        <select id="target-lang" class="language-select">
-                            <option value="en">English</option>
-                            <option value="hi" selected>Hindi</option>
-                            <option value="es">Spanish</option>
-                            <option value="fr">French</option>
-                            <option value="de">German</option>
-                            <option value="it">Italian</option>
-                            <option value="pt">Portuguese</option>
-                            <option value="ja">Japanese</option>
-                            <option value="ko">Korean</option>
-                            <option value="zh">Chinese</option>
-                            <option value="ar">Arabic</option>
-                            <option value="ru">Russian</option>
-                            <option value="nl">Dutch</option>
-                            <option value="tr">Turkish</option>
-                            <option value="pl">Polish</option>
-                            <option value="vi">Vietnamese</option>
-                            <option value="th">Thai</option>
-                            <option value="id">Indonesian</option>
-                            <option value="uk">Ukrainian</option>
-                            <option value="el">Greek</option>
-                        </select>
-
-                        <textarea
-                            id="output-text"
-                            class="translator-textarea"
-                            placeholder="Translation will appear here..."
-                            readonly
-                        ></textarea>
-
-                        <div class="button-group">
-                            <button id="copy-btn" class="btn btn-utility" disabled>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                                <span>Copy</span>
-                            </button>
-                        </div>
-                    </div>
+            <!-- Language Row -->
+            <div class="lang-row">
+                <div class="lang-group">
+                    <label for="source-lang" class="lang-label">FROM</label>
+                    <select id="source-lang" class="lang-select">
+                        <option value="en">English</option>
+                        <option value="hi">Hindi</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="it">Italian</option>
+                        <option value="pt">Portuguese</option>
+                        <option value="ja">Japanese</option>
+                        <option value="ko">Korean</option>
+                        <option value="zh">Chinese</option>
+                        <option value="ar">Arabic</option>
+                        <option value="ru">Russian</option>
+                        <option value="nl">Dutch</option>
+                        <option value="tr">Turkish</option>
+                        <option value="pl">Polish</option>
+                        <option value="vi">Vietnamese</option>
+                        <option value="th">Thai</option>
+                        <option value="id">Indonesian</option>
+                        <option value="uk">Ukrainian</option>
+                        <option value="el">Greek</option>
+                    </select>
                 </div>
 
-                <!-- Translate Button -->
-                <button id="translate-btn" class="btn btn-primary">
-                    <span class="btn-text">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
-                        Translate
-                    </span>
-                    <span class="btn-loader hidden">⟳</span>
+                <button id="swap-btn" class="swap-btn" title="Swap languages" aria-label="Swap languages">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="17 1 21 5 17 9" />
+                        <path d="M3 5h18" />
+                        <polyline points="7 23 3 19 7 15" />
+                        <path d="M21 19H3" />
+                    </svg>
                 </button>
-            </div>
-        </main>
 
-        <footer class="footer">
-            <p>Powered by <a href="https://mymemory.translated.net/" target="_blank" rel="noopener">MyMemory Translation API</a></p>
-            <p class="footer-note">Free, open-source translation for everyone</p>
-        </footer>
+                <div class="lang-group">
+                    <label for="target-lang" class="lang-label">TO</label>
+                    <select id="target-lang" class="lang-select">
+                        <option value="en">English</option>
+                        <option value="hi" selected>Hindi</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="it">Italian</option>
+                        <option value="pt">Portuguese</option>
+                        <option value="ja">Japanese</option>
+                        <option value="ko">Korean</option>
+                        <option value="zh">Chinese</option>
+                        <option value="ar">Arabic</option>
+                        <option value="ru">Russian</option>
+                        <option value="nl">Dutch</option>
+                        <option value="tr">Turkish</option>
+                        <option value="pl">Polish</option>
+                        <option value="vi">Vietnamese</option>
+                        <option value="th">Thai</option>
+                        <option value="id">Indonesian</option>
+                        <option value="uk">Ukrainian</option>
+                        <option value="el">Greek</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Text Areas -->
+            <div class="textarea-row">
+                <div class="textarea-wrap">
+                    <textarea id="input-text" class="translator-textarea" placeholder="Type something…"
+                        maxlength="500"></textarea>
+                    <div class="textarea-footer">
+                        <span class="char-count">0/500</span>
+                        <button id="clear-btn" class="icon-btn" title="Clear" aria-label="Clear input">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round">
+                                <path d="M18 6 6 18M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="textarea-wrap output-wrap">
+                    <textarea id="output-text" class="translator-textarea output-textarea"
+                        placeholder="Translation appears here…" readonly></textarea>
+                    <div class="textarea-footer output-footer">
+                        <button id="copy-btn" class="icon-btn" title="Copy translation" aria-label="Copy translation"
+                            disabled>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" />
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                            </svg>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Translate Button -->
+            <button id="translate-btn" class="translate-btn">
+                <span class="btn-label">Translate</span>
+                <span class="btn-loader hidden">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round">
+                        <path
+                            d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+                    </svg>
+                </span>
+            </button>
+
+        </div>
     </div>
 
     <div id="toast" class="toast hidden"></div>
 
     <script src="script.js"></script>
 </body>
+
 </html>

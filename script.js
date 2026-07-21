@@ -1,90 +1,105 @@
-// Get Dom...
-const sourceLang = document.getElementById("source-lang")
-const inputText = document.getElementById("input-text")
-const clearBtn = document.getElementById("clear-btn")
-const swapBtn = document.getElementById("swap-btn")
-const targetLang = document.getElementById("target-lang")
-const showOutput = document.getElementById("output-text")
+const BASE_URL = "https://translate.googleapis.com/translate_a/single"
+
+// Get DOM elements
+const sourceLang   = document.getElementById("source-lang")
+const targetLang   = document.getElementById("target-lang")
+const inputText    = document.getElementById("input-text")
+const showOutput   = document.getElementById("output-text")
 const translateBtn = document.getElementById("translate-btn")
-const copyBtn = document.getElementById("copy-btn")
-const charCount = document.querySelector(".char-count")
+const clearBtn     = document.getElementById("clear-btn")
+const swapBtn      = document.getElementById("swap-btn")
+const copyBtn      = document.getElementById("copy-btn")
+const charCount    = document.querySelector(".char-count")
+const toast        = document.getElementById("toast")
 
-
-// Functionality Start...
+// ── Translate ────────────────────────────────────────────────────
 translateBtn.addEventListener("click", async () => {
-
-    if (!inputText.value.trim()) {
-        alert("Please enter text")
+    const raw = inputText.value.trim()
+    if (!raw) {
+        showToast("Please enter some text first.")
         return
     }
 
-    const text = encodeURIComponent(inputText.value)
+    // Loading state
+    translateBtn.querySelector(".btn-label").textContent = "Translating…"
+    translateBtn.querySelector(".btn-loader").classList.remove("hidden")
+    translateBtn.disabled = true
+
+    const text   = encodeURIComponent(raw)
     const source = sourceLang.value
     const target = targetLang.value
 
     try {
         const response = await fetch(
-            `https://api.mymemory.translated.net/get?q=${text}&langpair=${source}|${target}`
+            `${BASE_URL}?client=gtx&sl=${source}&tl=${target}&dt=t&q=${text}`
         )
-
         const data = await response.json()
-        showOutput.value = data.responseData.translatedText
+        // data[0] is an array of [translatedChunk, originalChunk, …] pairs
+        const translatedText = data[0].map(chunk => chunk[0]).join("")
+        showOutput.value = translatedText
         copyBtn.disabled = false
-    } catch (error) {
-        console.error("Translation error:", error)
-        alert("Translation failed. Please try again.")
+    } catch (err) {
+        console.error("Translation error:", err)
+        showToast("Translation failed. Please try again.")
+    } finally {
+        translateBtn.querySelector(".btn-label").textContent = "Translate"
+        translateBtn.querySelector(".btn-loader").classList.add("hidden")
+        translateBtn.disabled = false
     }
-
 })
 
-// clear button 
+// ── Clear ────────────────────────────────────────────────────────
 clearBtn.addEventListener("click", () => {
-    inputText.value = ""
-    if (charCount) {
-        charCount.textContent = "0 / 5000"
-    }
+    inputText.value  = ""
+    showOutput.value = ""
+    copyBtn.disabled = true
+    if (charCount) charCount.textContent = "0/500"
+    inputText.focus()
 })
 
-// Character count
+// ── Character count ──────────────────────────────────────────────
 if (inputText && charCount) {
-
     inputText.addEventListener("input", () => {
-        charCount.textContent = `${inputText.value.length} / 5000`
+        charCount.textContent = `${inputText.value.length}/500`
     })
 }
 
-// SWAP Logic - Simple & Clean
+// ── Swap ─────────────────────────────────────────────────────────
 swapBtn.addEventListener("click", () => {
+    // Swap language selections
+    const tempLang     = sourceLang.value
+    sourceLang.value   = targetLang.value
+    targetLang.value   = tempLang
 
-    // Only swap if a specific source language is selected
-    if (sourceLang.value === "auto") {
-        alert("Please select a source language first")
-        return
-    }
+    // Swap text content
+    const tempText     = inputText.value
+    inputText.value    = showOutput.value
+    showOutput.value   = tempText
 
-    // Swap languages
-    const tempLang = sourceLang.value
-    sourceLang.value = targetLang.value
-    targetLang.value = tempLang
+    // Update char count
+    if (charCount) charCount.textContent = `${inputText.value.length}/500`
 
-    //  Swap text
-    const tempText = inputText.value
-    inputText.value = showOutput.value
-    showOutput.value = tempText
-
-    //  Update char count
-    if (charCount) {
-        charCount.textContent = `${inputText.value.length} / 5000`
-    }
+    // Enable/disable copy appropriately
+    copyBtn.disabled = !showOutput.value.trim()
 })
 
-// Copy button
+// ── Copy ─────────────────────────────────────────────────────────
 copyBtn.addEventListener("click", async () => {
     if (!showOutput.value.trim()) return
     try {
         await navigator.clipboard.writeText(showOutput.value)
-    } catch {
+        showToast("Copied to clipboard!")
+    } catch (err) {
         showOutput.select()
         document.execCommand("copy")
+        showToast("Copied!")
     }
 })
+
+// ── Toast helper ─────────────────────────────────────────────────
+function showToast(message) {
+    toast.textContent = message
+    toast.classList.remove("hidden")
+    clearTimeout(toast._timer)
+    toast._timer = setTimeout(() => toast.classList.add("hidden"), 2800)
+}
